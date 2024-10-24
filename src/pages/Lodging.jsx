@@ -1,30 +1,53 @@
 import { useParams } from "react-router-dom"
+import data from '../data/logements.json'
+import Carousel from "../components/Carousel"
+import Tags from "../components/Tags"
+import Ratings from "../components/Ratings"
+import Dropdown from "../components/Dropdown"
+import NotFound from "./NotFound"
 
 const Lodging = () => {
-    const { id } = useParams()
+	const { id } = useParams()
+
+	// On récupére le logement en fonction de son id en paramètre de l'url
+	const lodging = data.find(item => item.id === id)
+
+	// On vérifie si l'id d'un logement existe
+	if (!lodging) {
+		// si il n existe pas dans ce cas on est renvoyé vers la page 404
+		return <NotFound />
+	}
 
 
-    return (
-        <section id='lodging'>
-
-            {id}
-        <header class="container">
-		    <h1>
-			<img class="image" src="./packagge-lock.png" alt="Print it ! Impressions d'entreprises">
-
-		</header>
-		</div>
-
-        <div id="banner">
-			<img class="banner-img" src="./assets/images/slideshow/slide1.jpg" alt="Banner Print-it">
-			<img class="arrow arrow_left" src="./assets/images/arrow_left.png" alt="arrow left">
-			<img id="arrow_right" class="arrow arrow_right" src="./assets/images/arrow_right.png" alt="arrow right">
-			<div class="dots">
+	return (
+		<section id='lodging'>
+			<Carousel data={lodging} />
+			<div className="container">
+				<div className="header">
+					<div className="title">
+						<h1>{lodging.title}</h1>
+						<h2>{lodging.location}</h2>
+						<Tags tags={lodging.tags} />
+					</div>
+					<div className="sub-header">
+						<div className="host">
+							<span>{lodging.host.name}</span>
+							<img src={lodging.host.picture} alt={lodging.host.name} />
+						</div>
+						<Ratings rating={lodging.rating} />
+					</div>
+				</div>
+				<div className="dropdowns">
+					<Dropdown
+						data={{ title: 'Description', description: lodging.description }}
+					/>
+					<Dropdown
+						data={{ title: 'Equipements', description: lodging.equipments }}
+					/>
+				</div>
 			</div>
-		</div>
-
-        </section>
-    )
+		</section>
+	)
 }
 
 export default Lodging
