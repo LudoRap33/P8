@@ -2,8 +2,14 @@ import { useState } from 'react'
 import arrowUp from '../assets/arrow-up.png'
 import arrowDown from '../assets/arrow-down.png'
 
+//propse 
+
 const Dropdown = ({ data }) => {
+// vrai ça apparer et faux ça disparer
+// sert à actualiser la page
     const [isOpen, setIsOpen] = useState(false)
+
+// distintion entre  les data
 
     const description = (data) =>
         Array.isArray(data)
@@ -22,6 +28,7 @@ const Dropdown = ({ data }) => {
             )
 
     return (
+// affiche le nom qu'on veut afficher
         <div className="dropdown-container">
             <div className="dropdown">
                 <span>{data.title}</span>
